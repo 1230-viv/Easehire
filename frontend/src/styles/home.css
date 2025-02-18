@@ -1,0 +1,47 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    background: linear-gradient(to right, #74ffa2, #98BEFC);
+    padding-top: 60px; /* ✅ Adjust content below fixed navbar */
+  }
+  
+  .navbarcontainer {
+    position: fixed; /* ✅ Fix navbar at top */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* ✅ Keep navbar above other content */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: black;
+    padding: 10px 20px;
+  }
+  
+  .logo img {
+    height: 50px;
+    padding-left: 20px;
+  }
+  
+  .nav-items {
+    display: flex;
+    list-style: none;
+    margin-left: auto;
+  }
+  
+  .nav-items li {
+    margin: 0 15px;
+    color: white;
+    cursor: pointer;
+    font-size: 18px;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  /* Hover effect */
+  .nav-items li:hover {
+    color: rgb(175, 175, 244);
+  }
