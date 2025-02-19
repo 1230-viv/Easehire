@@ -1,10 +1,15 @@
-Project Setup
+# Project Setup
 
-Install Dependencies
+## Install Dependencies
 
 To install the necessary dependencies, run:
 
+```bash
 pip3 install -r requirements.txt
+```
 
-Run server
-python app.py
+Run Server
+
+```bash
+   python app.py
+```
