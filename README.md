@@ -26,9 +26,9 @@ Run Server
    npm start
 ```
 ## Database
-1.Install Mysql
-2.create user and set password
-3.create new database
-4.edit database.py accourding to your username and password
-
+1.Install Mysql </br >
+2.create user and set password </br >
+3.create new database </br >
+4.edit database.py accourding to your username and password</br >
+</br >
 Make sure sql server is running before starting quart 
