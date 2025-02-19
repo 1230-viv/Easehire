@@ -1,0 +1,7 @@
+quart
+hypercorn
+quart-cors
+sqlalchemy
+aiomysql
+PyJWT
+bcrypt
