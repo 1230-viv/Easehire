@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route ,Navigate} from 'react-router-do
 import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Admin from '../pages/admin';
+import Empd from '../pages/AddEmployee';
+import Apptrack from '../pages/Applicant_tracking';
 
 
 const AppRoutes = () => {
@@ -13,6 +15,8 @@ const AppRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/admin" element={isAuthenticated ? <Admin /> : <Navigate to="/login" />} />
+        <Route path="/admin/app_track" element={isAuthenticated ? <Apptrack /> : <Navigate to="/login" />} />
+        <Route path="/empd" element={<Empd />} />
       </Routes>
     </Router>
   );

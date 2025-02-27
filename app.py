@@ -1,28 +1,42 @@
 import logging
 from quart import Quart
 from quart_cors import cors  
+import hypercorn.asyncio
+import hypercorn.config
+import asyncio
 from loginAuthentication import auth_bp  
-from database import create_tables, routes
+from database import create_tables as create_job_tables, routes
+from Employeedb import create_tables as create_employee_tables, employee_routes
 
+# ✅ Initialize Quart App
 app = Quart(__name__)
-app = cors(app, allow_origin="http://localhost:3000")
 
-# ✅ Register blueprints
+# ✅ CORS Configuration
+allowed_origins = [
+    "http://localhost:3000",        
+    "http://10.180.173.101:3000",  
+    "http://10.180.173.102:3000",  
+    "http://10.180.173.103:3000",  
+]
+
+app = cors(app, allow_origin=allowed_origins, allow_credentials=True)
+
+# ✅ Register Blueprints (Routes)
 app.register_blueprint(auth_bp)  
 app.register_blueprint(routes)
+app.register_blueprint(employee_routes)  # Employee-related Routes
 
 # ✅ Initialize Database on Startup
 @app.before_serving
 async def startup():
-    await create_tables()
-    logging.info("Database tables initialized.")
+    await create_job_tables()  # Initialize Job Tables
+    await create_employee_tables()  # Initialize Employee Tables
+    logging.info("✅ All database tables initialized.")
 
-# ✅ ASGI Server with Hypercorn (No `asyncio.run()`)
+# ✅ Run ASGI Server with Hypercorn
 if __name__ == "__main__":
-    import hypercorn.asyncio
-    import asyncio
+    config = hypercorn.config.Config()
+    config.bind = ["127.0.0.1:5000"]  # Allows external access
 
-    config = hypercorn.Config()
-    config.bind = ["127.0.0.1:5000"]  # Run on localhost
-
+    # Properly run Hypercorn inside an event loop
     asyncio.run(hypercorn.asyncio.serve(app, config))

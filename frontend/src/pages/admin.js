@@ -79,7 +79,7 @@ const Admin = () => {
           <ul>
             <li><a href="/">Home</a></li>
             <li className="active"><a href="#">Job Management</a></li>
-            <li><a href="#">Applicant Tracking</a></li>
+            <li><a href="/admin/app_track">Applicant Tracking</a></li>
             <li><a href="#">Help Center</a></li>
           </ul>
         </nav>

@@ -9,7 +9,7 @@ const Home = () => {
     <div>
       <Navbar />
       <h1>Welcome to Home Page</h1>
-      <button >Apply for Job</button> {/* Login button */}
+      <a href='/empd'><button>Apply Job</button></a>
     </div>
   );
 };
