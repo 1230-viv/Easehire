@@ -43,9 +43,21 @@ async def protected():
 
 # Setup Quart app with CORS enabled
 from quart import Quart
-app = Quart(__name__)
-app = cors(app, allow_origin="http://localhost:3000")  # Allow React frontend
+from quart_cors import cors
 
+app = Quart(__name__)
+
+allowed_origins = [
+    "http://localhost:3000",        # For local development (if you still need it)
+    "http://10.180.173.101:3000",      # Your React app's origin (EXACT MATCH!)
+    "http://10.180.173.102:3000",      # Add other clients as needed
+    "http://10.180.173.103:3000",      # Add other clients as needed
+    # ... any other client IPs
+]
+
+app = cors(app, allow_origin=allowed_origins, allow_credentials=True) # If needed
+
+app = cors(app, allow_origin=allowed_origins)
 app.register_blueprint(auth_bp)
 
 if __name__ == "__main__":
