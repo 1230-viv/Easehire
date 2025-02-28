@@ -81,9 +81,15 @@ async def get_employees():
 async def get_employee_resume(employee_id):
     async with AsyncSessionLocal() as session:
         employee = await session.get(Employee, employee_id)
-        if not employee:
-            return jsonify({"success": False, "message": "Employee not found"}), 404
+        
+        if not employee or not employee.pdf_resume:
+            return jsonify({"success": False, "message": "Employee or PDF not found"}), 404
 
-        response = jsonify({"resume_pdf": base64.b64encode(employee.resume_pdf).decode("utf-8")})
-        response.headers["Content-Disposition"] = f'attachment; filename="resume_{employee_id}.pdf"'
-        return response, 200
+        try:
+            # Convert binary PDF data to Base64
+            pdf_base64 = base64.b64encode(employee.pdf_resume).decode("utf-8")
+            return jsonify({"resume_pdf": pdf_base64, "employee_id": employee_id}), 200
+        
+        except Exception as e:
+            logging.error(f"Error fetching PDF: {str(e)}")
+            return jsonify({"success": False, "message": "Internal Server Error"}), 500
