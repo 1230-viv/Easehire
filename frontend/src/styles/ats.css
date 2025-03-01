@@ -1,0 +1,91 @@
+/* ats.css */
+
+/* Global Styling */
+body {
+    margin: 0;
+    font-family: "Arial", sans-serif;
+    background: linear-gradient(to right, #cce3d3, #a4cdf0);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  
+  /* ✅ Navbar Styling */
+  .navbar {
+    position: fixed; /* ✅ Fix navbar at top */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* ✅ Keep navbar above other content */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: black;
+    padding: 10px 20px;
+  }
+  
+  .navbar img {
+    width: 35px; /* ✅ If logo needed */
+    margin-right: 10px;
+  }
+  
+  /* ✅ Main Container (Bilkul Image Jaisa) */
+  .ats-container {
+    background: white;
+    padding: 40px; /* ✅ Spacious padding */
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    max-width: 700px; /* ✅ Same as image */
+    width: 100%;
+    height: 450px; /* ✅ Bigger container */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* ✅ Score Circle (Image Jaisa Gradient) */
+  .ats-score {
+    width: 250px; 
+    height: 250px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    font-weight: bold;
+    font-size: 22px;
+    margin-bottom: 30px;
+    border: 6px solid transparent;
+    background: linear-gradient(white, white) padding-box,
+                linear-gradient(45deg, #62d0f5, #6365f1, #75e1b6) border-box;
+  }
+  
+  /* ✅ Text Styling */
+  .ats-text {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 30px;
+  }
+  
+  /* ✅ Next Button */
+  .ats-button {
+    background: white;
+    color: black;
+    border: 2px solid black;
+    padding: 12px 25px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: 0.3s ease;
+    align-self: flex-end; /* ✅ Right align */
+  }
+  
+  .ats-button:hover {
+    background: black;
+    color: white;
+  }

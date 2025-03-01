@@ -12,10 +12,20 @@ export const fetchEmployees = async () => {
 
 export const deleteEmployee = async (employeeId) => {
   try {
-    const response = await fetch(`${API_URL}/delete-employee/${employeeId}`, { method: "DELETE" });
-    return await response.json();
+      const response = await fetch(`http://127.0.0.1:5000/delete-employee/${employeeId}`, {
+          method: 'DELETE',
+          headers: {
+              'Content-Type': 'application/json'
+          }
+      });
+
+      if (!response.ok) {
+          throw new Error(`Server responded with ${response.status}`);
+      }
+
+      return await response.json();
   } catch (error) {
-    console.error("Error deleting employee:", error);
-    return { success: false };
+      console.error("Error deleting employee:", error.message);
+      throw error;
   }
 };

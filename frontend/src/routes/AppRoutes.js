@@ -5,7 +5,8 @@ import Login from '../pages/Login';
 import Admin from '../pages/admin';
 import Empd from '../pages/AddEmployee';
 import Apptrack from '../pages/Applicant_tracking';
-
+import ExploreJob from '../pages/explorejob';
+import Ats from '../pages/ats';
 
 const AppRoutes = () => {
   const isAuthenticated = !!localStorage.getItem("token");
@@ -16,7 +17,9 @@ const AppRoutes = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/admin" element={isAuthenticated ? <Admin /> : <Navigate to="/login" />} />
         <Route path="/admin/app_track" element={isAuthenticated ? <Apptrack /> : <Navigate to="/login" />} />
+        <Route path="/expjob" element={<ExploreJob />} />
         <Route path="/empd" element={<Empd />} />
+        <Route path="/ats" element={<Ats />} />
       </Routes>
     </Router>
   );
