@@ -19,7 +19,9 @@ const AppRoutes = () => {
         <Route path="/admin/app_track" element={isAuthenticated ? <Apptrack /> : <Navigate to="/login" />} />
         <Route path="/expjob" element={<ExploreJob />} />
         <Route path="/empd" element={<Empd />} />
-        <Route path="/ats" element={<Ats />} />
+        <Route path="/ats/:employeeId" element={<Ats />} />
+
+
       </Routes>
     </Router>
   );

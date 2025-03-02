@@ -5,20 +5,19 @@ import "../styles/employee.css";
 const AddEmployee = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const jobId = location.state?.jobId || null; // ✅ Retrieve job_id from state
+  const jobId = location.state?.jobId || null;
 
   const [employee, setEmployee] = useState({
     name: "",
     phoneNumber: "",
     email: "",
     pdf_resume: null,
-    job_id: jobId, // ✅ Automatically set from job selection
+    job_id: jobId,
   });
 
-  const [message, setMessage] = useState(""); // Success/Error messages
-  const [loading, setLoading] = useState(false); // Loading state
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  // Handle text input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEmployee((prevEmployee) => ({
@@ -27,7 +26,6 @@ const AddEmployee = () => {
     }));
   };
 
-  // Handle file selection (PDF Upload)
   const handleFileChange = (e) => {
     if (e.target.files.length > 0) {
       setEmployee((prevEmployee) => ({
@@ -37,13 +35,10 @@ const AddEmployee = () => {
     }
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setMessage("");
-
-    console.log("Submitting Employee Data:", employee); // Debugging output
 
     if (!employee.name || !employee.phoneNumber || !employee.email || !employee.pdf_resume) {
       setMessage("All fields are required.");
@@ -53,10 +48,10 @@ const AddEmployee = () => {
 
     const formData = new FormData();
     formData.append("name", employee.name);
-    formData.append("phone_number", employee.phoneNumber); // ✅ Matches backend
+    formData.append("phone_number", employee.phoneNumber);
     formData.append("email", employee.email);
     formData.append("pdf_resume", employee.pdf_resume);
-    formData.append("job_id", employee.job_id); // ✅ Send job_id
+    formData.append("job_id", employee.job_id);
 
     try {
       const response = await fetch("http://127.0.0.1:5000/add-employee", {
@@ -65,9 +60,11 @@ const AddEmployee = () => {
       });
 
       const result = await response.json();
-      if (response.ok) {
+      console.log("API Response:", result);
+
+      if (response.ok && result.employee_id) {
         setMessage("Employee added successfully!");
-        setTimeout(() => navigate("/ats"), 2000); // ✅ Redirect to ATS after submission
+        navigate(`/ats/${result.employee_id}`); // Navigate immediately
       } else {
         setMessage(result.message || "Failed to add employee.");
       }

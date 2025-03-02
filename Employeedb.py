@@ -3,7 +3,8 @@ import base64
 from quart import Blueprint, request, jsonify
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker, declarative_base, relationship
-from sqlalchemy import Column, Integer, String, LargeBinary, ForeignKey, select
+from sqlalchemy import Column, Integer, String , ForeignKey, select
+from sqlalchemy.dialects.mysql import LONGBLOB
 
 # ✅ Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -30,8 +31,9 @@ class Employee(Base):
     name = Column(String(255), nullable=False)
     phone_number = Column(String(20), nullable=False, unique=True)
     email = Column(String(255), nullable=False, unique=True)
-    pdf_resume = Column(LargeBinary, nullable=False)  
-    job_id = Column(Integer, ForeignKey("jobs.id"), nullable=False)  # 🔗 Foreign Key linking to Job
+    pdf_resume = Column(LONGBLOB, nullable=False)
+    job_id = Column(Integer, ForeignKey("jobs.id"), nullable=False)
+    ats_score = Column(String(10), nullable=True)
 
 # ✅ Create Tables
 async def create_tables():
@@ -125,4 +127,21 @@ async def delete_employee(employee_id):
         await session.commit()
 
     return jsonify({"success": True, "message": "Employee deleted successfully!"}), 200
+
+@employee_routes.route("/employee-resume/<int:employee_id>", methods=["GET"])
+async def get_employee_resume(employee_id):
+    async with AsyncSessionLocal() as session:
+        employee = await session.get(Employee, employee_id)
+        
+        if not employee or not employee.pdf_resume:
+            return jsonify({"success": False, "message": "Employee or PDF not found"}), 404
+
+        try:
+            # Convert binary PDF data to Base64
+            pdf_base64 = base64.b64encode(employee.pdf_resume).decode("utf-8")
+            return jsonify({"resume_pdf": pdf_base64, "employee_id": employee_id}), 200
+        
+        except Exception as e:
+            logging.error(f"Error fetching PDF: {str(e)}")
+            return jsonify({"success": False, "message": "Internal Server Error"}), 500
 

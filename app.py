@@ -7,6 +7,7 @@ import asyncio
 from loginAuthentication import auth_bp  
 from database import create_tables as create_job_tables, routes
 from Employeedb import create_tables as create_employee_tables, employee_routes
+from ats import ats_routes  # ✅ Import ATS Blueprint
 
 # ✅ Initialize Quart App
 app = Quart(__name__)
@@ -25,6 +26,7 @@ app = cors(app, allow_origin=allowed_origins, allow_credentials=True)
 app.register_blueprint(auth_bp)  
 app.register_blueprint(routes)
 app.register_blueprint(employee_routes)  # Employee-related Routes
+app.register_blueprint(ats_routes)  # ✅ Register ATS Routes
 
 # ✅ Initialize Database on Startup
 @app.before_serving

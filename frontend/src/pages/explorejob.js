@@ -84,7 +84,6 @@ const ExploreJob = () => {
               <p><strong>Job Type:</strong> {job.type}</p>
               <p><strong>Location:</strong> {job.location}</p>
               <p><strong>Skills:</strong> {job.skills}</p>
-              <p>{job.description}</p>
               <div className="job-buttons">
                 <button className="read-more">Read More</button>
                 <button className="apply-now" onClick={() => handleApply(job.id)}>Apply Now</button>
