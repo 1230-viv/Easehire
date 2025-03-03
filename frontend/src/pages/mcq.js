@@ -68,28 +68,31 @@ const ExamPage = () => {
       alert("⚠️ Please answer all questions before submitting.");
       return;
     }
-
+  
     const score = calculateScore();
-
+  
     const employeeId = localStorage.getItem("employeeId");
     if (!employeeId) {
       alert("⚠️ Employee ID is missing.");
       return;
     }
-
+  
     try {
       console.log(`📤 Submitting Score: ${score} for Employee ID: ${employeeId}`);
-
+  
       const response = await axios.post(`${API_BASE_URL}/submit-mcq/${employeeId}`, { score });
-
+  
       console.log("🔹 Submission Response:", response.data);
       alert("✅ MCQ submitted successfully!");
-      navigate(`/results/${employeeId}`);
+  
+      // ✅ Navigate to the coding round instead of results
+      navigate(`/coding/${jobId}`);
     } catch (err) {
       console.error("❌ Submission Error:", err);
       alert("❌ Failed to submit MCQ. Please try again.");
     }
   };
+  
 
   if (loading) return <div className="loading">⏳ Loading MCQs...</div>;
   if (error) return <div className="error">{error}</div>;

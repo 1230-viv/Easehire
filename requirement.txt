@@ -6,3 +6,4 @@ aiomysql
 PyJWT
 bcrypt
 quart quart-cors ollama
+docker
