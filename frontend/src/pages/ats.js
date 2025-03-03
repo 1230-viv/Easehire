@@ -8,6 +8,7 @@ const Ats = () => {
   const navigate = useNavigate();
   const { employeeId } = useParams();
   const [atsScore, setAtsScore] = useState(null);
+  const [jobId, setJobId] = useState(null); // Store Job ID
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -30,6 +31,7 @@ const Ats = () => {
 
       if (response.ok && data.success) {
         setAtsScore(data.ats_score);
+        setJobId(data.job_id); // Store job ID from API response
       } else {
         console.warn("ATS score not found, generating new score...");
         await generateAtsScore();
@@ -68,6 +70,7 @@ const Ats = () => {
 
       if (generateResponse.ok && data.success) {
         setAtsScore(data.ats_score);
+        setJobId(data.job_id); // Store job ID from generated score
       } else {
         throw new Error(data.message || "Failed to generate ATS score.");
       }
@@ -82,6 +85,14 @@ const Ats = () => {
   useEffect(() => {
     fetchAtsScore();
   }, [employeeId]);
+
+  const handleNext = () => {
+    if (jobId) {
+      navigate(`/mcq/${jobId}`); // Navigate to MCQ page with jobId
+    } else {
+      setError("Job ID is missing. Please try again.");
+    }
+  };
 
   return (
     <div className="ats-container">
@@ -107,7 +118,13 @@ const Ats = () => {
             </p>
           </>
         )}
-        <button className="ats-next-btn" onClick={() => navigate("/")} disabled={loading}>Next</button>
+        <button 
+          className="ats-next-btn" 
+          onClick={handleNext} 
+          disabled={loading || !jobId}
+        >
+          Next
+        </button>
       </div>
     </div>
   );

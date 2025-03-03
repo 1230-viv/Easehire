@@ -8,6 +8,7 @@ from loginAuthentication import auth_bp
 from database import create_tables as create_job_tables, routes
 from Employeedb import create_tables as create_employee_tables, employee_routes
 from ats import ats_routes  # ✅ Import ATS Blueprint
+from mcq import mcq_routes  # ✅ Import MCQ Routes
 
 # ✅ Initialize Quart App
 app = Quart(__name__)
@@ -27,6 +28,7 @@ app.register_blueprint(auth_bp)
 app.register_blueprint(routes)
 app.register_blueprint(employee_routes)  # Employee-related Routes
 app.register_blueprint(ats_routes)  # ✅ Register ATS Routes
+app.register_blueprint(mcq_routes)  # ✅ Register MCQ Routes
 
 # ✅ Initialize Database on Startup
 @app.before_serving

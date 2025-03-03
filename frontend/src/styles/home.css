@@ -1,47 +1,58 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    background: linear-gradient(to right, #74ffa2, #98BEFC);
-    padding-top: 60px; /* ✅ Adjust content below fixed navbar */
-  }
-  
-  .navbarcontainer {
-    position: fixed; /* ✅ Fix navbar at top */
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000; /* ✅ Keep navbar above other content */
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: black;
-    padding: 10px 20px;
-  }
-  
-  .logo img {
-    height: 50px;
-    padding-left: 20px;
-  }
-  
-  .nav-items {
-    display: flex;
-    list-style: none;
-    margin-left: auto;
-  }
-  
-  .nav-items li {
-    margin: 0 15px;
-    color: white;
-    cursor: pointer;
-    font-size: 18px;
-    transition: color 0.3s ease-in-out;
-  }
-  
-  /* Hover effect */
-  .nav-items li:hover {
-    color: rgb(175, 175, 244);
-  }
+.home-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100vh; /* Ensure it takes the full viewport height */
+  width: 100%; /* Ensure full width */
+  padding: 0 10%;
+  background: inherit; /* Inherits the body's background */
+}
+
+.text-container {
+  max-width: 50%;
+}
+
+.text-container h1 {
+  font-size: 36px; /* Matches image */
+  font-weight: bold;
+  color: black;
+}
+
+.text-container p {
+  font-size: 20px;
+  color: black;
+  line-height: 1.5;
+}
+
+.apply-button {
+  display: flex;
+  align-items: center;
+  background-color: black;
+  color: white;
+  padding: 18px 28px;
+  border-radius: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  text-decoration: none;
+  margin-top: 25px;
+  width: fit-content;
+}
+
+.apply-button:hover {
+  background-color: #333;
+}
+
+.apply-button img {
+  width: 40px; /* Icon size */
+  height: 40px;
+  margin-right: 12px;
+}
+
+/* GIF Styling */
+.robot-gif {
+  width: 40%; /* Adjusted for perfect positioning */
+  max-width: 420px;
+  height: auto;
+  margin-left: -18%; /* Moves left to align with text */
+  margin-top: -50px; /* Moves up slightly */
+}

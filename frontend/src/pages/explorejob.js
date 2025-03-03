@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBriefcase, faSearch } from "@fortawesome/free-solid-svg-icons";
 import "../styles/explorejob.css";
+import Navbar from "../components/navbar1";
 
 const API_URL = "http://127.0.0.1:5000/jobs"; // Ensure this matches your backend
 
@@ -50,25 +51,21 @@ const ExploreJob = () => {
   }, [search, jobs]);
 
   const handleApply = (jobId) => {
-    navigate("/empd", { state: { jobId } }); // ✅ Passes job_id to AddEmployee.js
+    navigate("/empd", { state: { jobId } });
   };
 
   return (
     <div className="explore-job-container">
-      <header className="navbar">
-        <h2 className="logo">EaseHire</h2>
-      </header>
+      <Navbar />
 
-      <div className="search-filter-section">
-        <div className="search-bar">
-          <FontAwesomeIcon icon={faSearch} className="search-icon" />
-          <input
-            type="text"
-            placeholder="Search jobs..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </div>
+      <div className="search-bar">
+        <FontAwesomeIcon icon={faSearch} className="search-icon" />
+        <input
+          type="text"
+          placeholder="Search by job title, location, or skills..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
       </div>
 
       {loading ? (

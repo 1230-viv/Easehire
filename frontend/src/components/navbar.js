@@ -1,19 +1,21 @@
 import React from "react";
-
+import "./navbar.css";
+import logo from "../assets/logo.png"; // Go one level up
 
 const Navbar = () => {
   return (
-    <div className="navbarcontainer">
+    <nav className="navbar">
       <div className="logo">
-        <img src="assets/logo.png" alt="Logo" />
+        <img src={logo} alt="EaseHire Logo" />
+        <span>EaseHire</span>
       </div>
-      <ul className="nav-items">
-        <a href="/"><li>Home</li></a>
-        <li>About Us</li>
-        <li>Our Team</li>
-        <a href="/login"><li>Admin</li></a>
+      <ul className="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="#">About us</a></li>
+        <li><a href="#">Our Team</a></li>
+        <li><a href="/login">Admin</a></li>
       </ul>
-    </div>
+    </nav>
   );
 };
 

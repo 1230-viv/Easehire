@@ -4,7 +4,7 @@ import ollama
 from quart import Blueprint, jsonify
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from Employeedb import AsyncSessionLocal, Employee  
+from Employeedb import AsyncSessionLocal, Employee, Job  # ✅ Import Job model
 
 logging.basicConfig(level=logging.INFO)
 
@@ -54,7 +54,7 @@ def get_ats_score(pdf_bytes):
 
 @ats_routes.route("/evaluate-resume/<int:employee_id>", methods=["GET"])
 async def evaluate_resume(employee_id):
-    """Fetch ATS score from database; if missing, generate and save it."""
+    """Fetch ATS score and job ID from the database; if missing, generate and save it."""
     async with AsyncSessionLocal() as session:  # ✅ Ensure employee is fetched within the same session
         result = await session.execute(select(Employee).where(Employee.id == employee_id))
         employee = result.scalar_one_or_none()
@@ -62,10 +62,25 @@ async def evaluate_resume(employee_id):
         if not employee:
             return jsonify({"success": False, "message": "Employee not found"}), 404
 
-        # ✅ If ATS score already exists, return it
+        # ✅ Fetch the job ID associated with the employee
+        job_result = await session.execute(select(Job.id).where(Job.id == employee.job_id))
+        job = job_result.scalar_one_or_none()
+
+        if not job:
+            logging.error(f"❌ No job found for Employee ID {employee_id}")
+            return jsonify({"success": False, "message": "No associated job found"}), 404
+
+        job_id = job  # ✅ Extract job ID
+
+        # ✅ If ATS score already exists, return it with the job_id
         if employee.ats_score is not None:
             logging.info(f"✅ ATS score found in database for Employee ID {employee_id}: {employee.ats_score}")
-            return jsonify({"success": True, "employee_id": employee_id, "ats_score": employee.ats_score})
+            return jsonify({
+                "success": True,
+                "employee_id": employee_id,
+                "ats_score": employee.ats_score,
+                "job_id": job_id
+            })
 
         # 🛑 No ATS score found → Generate a new one
         if not employee.pdf_resume:
@@ -83,4 +98,9 @@ async def evaluate_resume(employee_id):
 
         logging.info(f"✅ Generated and saved ATS score {ats_score} for Employee ID {employee_id}")
 
-        return jsonify({"success": True, "employee_id": employee_id, "ats_score": ats_score})
+        return jsonify({
+            "success": True,
+            "employee_id": employee_id,
+            "ats_score": ats_score,
+            "job_id": job_id
+        })
