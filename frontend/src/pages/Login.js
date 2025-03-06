@@ -6,6 +6,7 @@ import illustration from "../assets/login.png"; // ✅ Illustration image
 import userIcon from "../assets/aa.png"; // ✅ Username icon
 import passIcon from "../assets/ab.png"; // ✅ Password icon
 import backIcon from "../assets/ac.png"; // ✅ Back button image
+import Logout from "./Logout";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -30,7 +31,7 @@ const Login = () => {
 
       if (res.ok && data.token) {
         localStorage.setItem("token", data.token); // Store token
-        navigate("/admin"); // Redirect to Admin Page
+        navigate("/AdminHome"); // Redirect to Admin Page
       } else {
         alert("Invalid credentials");
       }

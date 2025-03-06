@@ -1,0 +1,71 @@
+.dashboard-container {
+  margin-left: 120px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+
+  }
+
+  .top-section {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  
+  .recent-candidates,
+  .job-management {
+    height: 500px;
+    width: 700px;
+    flex: 1;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .button-container {
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 10px; /* Add spacing between buttons */
+}
+
+.button-container button {
+  height: 80px;
+
+}
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+  }
+  
+  .job-management a {
+    display: block;
+    margin-top: 10px;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+  }
+  
+  .job-management a i {
+    margin-right: 8px;
+  }
+  
+  .candidates-resume {
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+  }

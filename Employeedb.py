@@ -104,7 +104,7 @@ async def add_employee():
 async def get_employees():
     async with AsyncSessionLocal() as session:
         result = await session.execute(
-            select(Employee.id, Employee.name, Employee.phone_number, Employee.email, Employee.pdf_resume, 
+            select(Employee.id, Employee.name, Employee.phone_number, Employee.email, Employee.pdf_resume, Employee.ats_score , 
                    Employee.job_id, Job.title, Employee.mcq_score)  # ✅ Include MCQ score
             .join(Job, Employee.job_id == Job.id)
         )
@@ -117,6 +117,7 @@ async def get_employees():
                 "phone_number": emp.phone_number,
                 "email": emp.email,
                 "pdf_resume": base64.b64encode(emp.pdf_resume).decode("utf-8"),
+                "ats_score":emp.ats_score,
                 "job_id": emp.job_id,
                 "job_title": emp.title,
                 "mcq_score": emp.mcq_score  # ✅ Include MCQ score in response
