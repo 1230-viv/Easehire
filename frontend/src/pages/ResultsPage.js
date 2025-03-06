@@ -1,15 +1,25 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import "../styles/ResultPage.css"; // Import the separate CSS file
+import Navbar from "../components/navbar1";
 
-const ResultsPage = () => {
-  const { jobId } = useParams();
+const ResultPage = () => {
+  const navigate = useNavigate();
 
   return (
-    <div>
-      <h2>Results for Job ID: {jobId}</h2>
-      <p>Your MCQ score has been recorded successfully.</p>
+    <>
+    <Navbar />
+    <div className="result-container">
+      <div className="result-box">
+        <h1>Shortlisted Candidates Will Be Declared Soon</h1>
+        <p>Stay tuned for further updates. We appreciate your patience.</p>
+        <button onClick={() => navigate("/")} className="home-button">
+          Back to Home
+        </button>
+      </div>
     </div>
+    </>
   );
 };
 
-export default ResultsPage;
+export default ResultPage;

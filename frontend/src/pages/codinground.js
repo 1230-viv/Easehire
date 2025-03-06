@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Editor from "@monaco-editor/react";
 import "../styles/codinground.css";
@@ -8,29 +8,35 @@ const API_BASE_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000";
 
 const CodingRound = () => {
   const { jobId } = useParams();
+  const navigate = useNavigate();
   const editorRef = useRef(null);
 
   const [problem, setProblem] = useState(null);
-  const [language, setLanguage] = useState("python"); // Default language
+  const [language, setLanguage] = useState("python");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [output, setOutput] = useState(""); // Stores execution output
+  const [output, setOutput] = useState("");
 
   const defaultCode = {
-    python: "# Write your code here\n",
-    javascript: "// Write your code here\n",
-    java: "// Write your code here\n",
-    cpp: "// Write your code here\n",
+    python: "",
+    javascript: "",
+    java: "",
+    cpp: "",
   };
 
-  const [code, setCode] = useState(
-    localStorage.getItem(`userCode-${language}`) || defaultCode[language]
-  );
+  const [code, setCode] = useState(defaultCode[language]);
 
   useEffect(() => {
     const fetchProblem = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/generate-coding/${jobId}`);
+        const employeeId = localStorage.getItem("employeeId");
+        if (!employeeId) {
+          setError("⚠️ Employee ID is missing.");
+          setLoading(false);
+          return;
+        }
+
+        const response = await axios.get(`${API_BASE_URL}/coding/generate-coding/${employeeId}/${jobId}`);
         setProblem(response.data.problem);
       } catch (err) {
         console.error("Error fetching problem:", err);
@@ -46,12 +52,11 @@ const CodingRound = () => {
   const handleLanguageChange = (e) => {
     const newLang = e.target.value;
     setLanguage(newLang);
-    setCode(localStorage.getItem(`userCode-${newLang}`) || defaultCode[newLang]);
+    setCode(defaultCode[newLang]);
   };
 
   const handleCodeChange = (newValue) => {
     setCode(newValue);
-    localStorage.setItem(`userCode-${language}`, newValue);
   };
 
   const handleEditorDidMount = (editor) => {
@@ -59,7 +64,23 @@ const CodingRound = () => {
     setTimeout(() => editor.layout(), 300);
   };
 
-  const handleSubmit = async () => {
+  const handleRunCode = async () => {
+    try {
+      setOutput("⏳ Running your code...");
+
+      const response = await axios.post(`${API_BASE_URL}/coding/execute-code`, {
+        language,
+        code,
+      });
+
+      setOutput(response.data.output || "⚠️ No output received.");
+    } catch (err) {
+      console.error("Execution Error:", err);
+      setOutput(`❌ Execution failed: ${err.response?.data?.error || err.message}`);
+    }
+  };
+
+  const handleSubmitCode = async () => {
     try {
       const employeeId = localStorage.getItem("employeeId");
       if (!employeeId) {
@@ -67,18 +88,32 @@ const CodingRound = () => {
         return;
       }
 
-      const response = await axios.post(`${API_BASE_URL}/execute-code`, {
-        jobId,
-        employeeId, // Make sure Employee ID is sent
+      const response = await axios.post(`${API_BASE_URL}/coding/submit-code`, {
+        employeeId,
         code,
         language,
       });
 
-      setOutput(response.data.output || "⚠️ No output received.");
+      if (response.data.status === "PASS") {
+        setOutput("✅ Congratulations! You Passed the Coding Round.");
+      } else {
+        setOutput("❌ Sorry! Your Output Did Not Match the Expected Output.");
+      }
+
+      // Navigate to results/end page after submission
+      setTimeout(() => {
+        navigate("/coding/result", { state: { result: response.data.status } });
+      }, 2000);
+
     } catch (err) {
-      console.error("Execution Error:", err.message);
-      setOutput("❌ Failed to execute code. Please check your syntax.");
+      console.error("Submission Error:", err);
+      setOutput(`❌ Submission failed: ${err.response?.data?.error || err.message}`);
     }
+  };
+
+  const handleReset = () => {
+    setCode(defaultCode[language]);
+    setOutput("");
   };
 
   if (loading) return <div className="loading">⏳ Loading Problem...</div>;
@@ -145,9 +180,9 @@ const CodingRound = () => {
             <option value="cpp">C++</option>
           </select>
 
-          <button className="submit-btn" onClick={handleSubmit}>
-            🚀 Run Code
-          </button>
+          <button className="run-btn" onClick={handleRunCode}>▶️ Run Code</button>
+          <button className="submit-btn" onClick={handleSubmitCode}>🚀 Submit Code</button>
+          <button className="reset-btn" onClick={handleReset}>🔄 Reset</button>
         </div>
 
         {output && (

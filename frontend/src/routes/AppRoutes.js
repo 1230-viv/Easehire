@@ -10,6 +10,9 @@ import Ats from '../pages/ats';
 import Mcq from '../pages/mcq';
 import ResultsPage from '../pages/ResultsPage'; 
 import CodingRound from '../pages/codinground';
+import ContactUs from '../pages/contactus';
+import AboutUs from '../pages/aboutus';
+import ResultPage from '../pages/ResultsPage';
 
 const AppRoutes = () => {
   const isAuthenticated = !!localStorage.getItem("token");
@@ -18,7 +21,10 @@ const AppRoutes = () => {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/contact" element={<ContactUs />} />
+        <Route path="/about" element={<AboutUs />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/result" element={<ResultPage />} />
         <Route path="/admin" element={isAuthenticated ? <Admin /> : <Navigate to="/login" />} />
         <Route path="/admin/app_track" element={isAuthenticated ? <Apptrack /> : <Navigate to="/login" />} />
         <Route path="/expjob" element={<ExploreJob />} />
@@ -26,7 +32,7 @@ const AppRoutes = () => {
         <Route path="/ats/:employeeId" element={<Ats />} />
         <Route path="/mcq/:jobId" element={<Mcq />} />
         <Route path="/results/:jobId" element={<ResultsPage />} /> {/* ✅ Added ResultsPage route */}
-        <Route path="/coding/:jobId" element={<CodingRound />} />
+        <Route path="/coding/:employeeId/:jobId" element={<CodingRound />} />
 
       </Routes>
     </Router>

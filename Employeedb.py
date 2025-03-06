@@ -3,7 +3,7 @@ import base64
 from quart import Blueprint, request, jsonify
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker, declarative_base, relationship
-from sqlalchemy import Column, Integer, String, ForeignKey, select
+from sqlalchemy import Column, Integer, String, ForeignKey, select,Text
 from sqlalchemy.dialects.mysql import LONGBLOB
 
 # ✅ Configure logging
@@ -36,8 +36,11 @@ class Employee(Base):
     pdf_resume = Column(LONGBLOB, nullable=False)
     job_id = Column(Integer, ForeignKey("jobs.id"), nullable=False)
     ats_score = Column(String(10), nullable=True)
-    mcq_score = Column(Integer, nullable=True)  # ✅ New column to store MCQ result
-
+    mcq_score = Column(Integer, nullable=True)
+    problem_statement = Column(Text, nullable=True) 
+    question = Column(Text, nullable=True) 
+    code = Column(Text, nullable=True) 
+    code_result = Column(String(50), nullable=True)
 # ✅ Create Tables
 async def create_tables():
     async with engine.begin() as conn:

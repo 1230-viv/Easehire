@@ -1,0 +1,47 @@
+.about-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    padding: 5% 10%;
+    background: linear-gradient(to right, #e8ffe8, #b0dfff); /* Matches the gradient */
+  }
+  
+  .about-text {
+    max-width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Ensures everything inside is left-aligned */
+  }
+  
+  .about-text h2 {
+    font-size: 36px;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 10px; /* Adjusts spacing */
+  }
+  
+  
+  .about-text h3 {
+    font-size: 30px; /* Increased size */
+    font-weight: bold;
+    color: black;
+    margin-top: 10px;
+  }
+  
+  .about-text p {
+    font-size: 20px; /* Increased size */
+    color: black;
+    line-height: 1.8;
+    margin-top: 10px;
+  }
+  
+  /* GIF Styling */
+  .robot-gif {
+    width: 40%;
+    max-width: 420px;
+    height: auto;
+    margin-left: -18%;
+    margin-top: -50px;
+  }

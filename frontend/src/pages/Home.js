@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from '../components/navbar';
 import '../styles/home.css';
-import robotGif from '../assets/bot.gif';
+import robotGif from '../assets/rbot.gif';
 import jobIcon from '../assets/run.png'; // Ensure the path is correct
 
 const Home = () => {

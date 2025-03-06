@@ -1,0 +1,103 @@
+/* 🔹 Background FULL SCREEN - No Vertical Strip */
+.contact-container {
+    text-align: center;
+    padding-top: 50px;
+    background: linear-gradient(to right, #b7e3fc, #8ecae6);
+    width: 100vw;  /* ✅ Full width to remove vertical difference */
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* 🔹 Title */
+  .contact-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  /* 🔹 Contact Box - Wider */
+  .contact-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #5a7ea1;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.2);
+    width: 90%; /* ✅ Increase width */
+    max-width: 1100px;
+  }
+  
+  /* 🔹 Form Section */
+  .form-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 50%;
+  }
+  
+  /* 🔹 Input Box */
+  .input-box {
+    display: flex;
+    align-items: center;
+    background: #e5ecf4;
+    border-radius: 10px;
+    padding: 10px;
+  }
+  
+  .input-box .icon {
+    font-size: 18px;
+    margin-right: 10px;
+    color: #333;
+  }
+  
+  .input-box input {
+    border: none;
+    background: none;
+    outline: none;
+    font-size: 16px;
+    width: 100%;
+  }
+  
+  /* 🔹 Image Section */
+  .image-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+  }
+  
+  .image-section img {
+    width: 100%;
+    max-width: 400px; /* ✅ Increase size */
+  }
+  
+  /* 🔹 Footer Text */
+  .contact-footer {
+    margin-top: 15px;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .submit-btn {
+    background-color: #007bff;
+    color: rgb(255, 255, 255);
+    border: none;
+    padding: 8px 16px; /* Adjust padding */
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 20px; /* Rounded corners */
+    margin-top: 10px;
+    width: 120px; /* Small width */
+    text-align: center;
+    display: block; /* Ensures it behaves like a block */
+    margin-left: auto; /* Centers the button */
+    margin-right: auto; /* Centers the button */
+    transition: background 0.3s ease-in-out;
+  }
+  
+  .submit-btn:hover {
+    background-color: #0056b3;
+  }

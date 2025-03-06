@@ -106,7 +106,7 @@ const AddEmployee = () => {
         <label>Email:</label>
         <input type="email" name="email" value={employee.email} onChange={handleChange} required />
 
-        <label>Upload PDF:</label>
+        <label>Upload Resume:</label>
         <input type="file" accept="application/pdf" onChange={handleFileChange} required />
 
         <button type="submit" disabled={loading}>
