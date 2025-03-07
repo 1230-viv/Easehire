@@ -5,6 +5,8 @@ import "../styles/employee.css";
 const AddEmployee = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  
+  // Retrieve job_id from location state or localStorage
   const jobId = location.state?.jobId || localStorage.getItem("jobId") || null;  // ✅ Ensure correct jobId is used
 
   const [employee, setEmployee] = useState({
@@ -47,7 +49,10 @@ const AddEmployee = () => {
     setLoading(true);
     setMessage("");
 
-    console.log("🔹 jobId from state or localStorage:", jobId);
+    // Make sure job_id is either null or a valid number
+    const validJobId = employee.job_id && employee.job_id !== "null" ? employee.job_id : null;
+
+    console.log("🔹 job_id before submission:", validJobId);
     console.log("🔹 Employee object before submission:", employee);
 
     if (!employee.name || !employee.phoneNumber || !employee.email || !employee.pdf_resume) {
@@ -61,7 +66,7 @@ const AddEmployee = () => {
     formData.append("phone_number", employee.phoneNumber);
     formData.append("email", employee.email);
     formData.append("pdf_resume", employee.pdf_resume);
-    formData.append("job_id", employee.job_id);  // ✅ Double-checking job_id
+    formData.append("job_id", validJobId); // ✅ Use validJobId here
 
     try {
       const response = await fetch("http://127.0.0.1:5000/add-employee", {
@@ -75,9 +80,9 @@ const AddEmployee = () => {
       if (response.ok && result.employee_id) {
         setMessage("✅ Employee added successfully!");
 
-        // ✅ Storing values properly
+        // Store employee_id and job_id in localStorage
         localStorage.setItem("employeeId", result.employee_id);
-        localStorage.setItem("jobId", jobId);  // ✅ Ensuring jobId is stored correctly
+        localStorage.setItem("jobId", validJobId); // Ensure job_id is stored correctly
 
         navigate(`/ats/${result.employee_id}`);
       } else {

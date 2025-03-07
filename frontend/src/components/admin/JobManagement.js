@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faPlus, faEdit } from "@fortawesome/free-solid-svg-icons";
 import Headertittl from "../../components/admin/Header.js";
 import "./JobManagement.css";
 
 const API_URL = "http://localhost:5000"; // Change this if hosted elsewhere
 
 const JobManagement = () => {
+  const navigate = useNavigate();
   const [jobs, setJobs] = useState([]);
   const [jobData, setJobData] = useState({
     jobTitle: "",
@@ -82,6 +84,7 @@ const JobManagement = () => {
               <tr>
                 <th>Job Id</th>
                 <th>Job Title</th>
+                <th>Edit</th>
                 <th>Delete</th>
               </tr>
             </thead>
@@ -90,6 +93,14 @@ const JobManagement = () => {
                 <tr key={job.id}>
                   <td>{job.id}</td>
                   <td>{job.title}</td>
+                  <td>
+                  <button
+                    className="btn btn-link"
+                    onClick={() => navigate(`/edit-job/${job.id}`)}
+                  >
+                    <FontAwesomeIcon icon={faEdit} />
+                  </button>
+                  </td>
                   <td>
                     <button className="btn btn-link text-danger" onClick={() => deleteJob(job.id)}>
                       <FontAwesomeIcon icon={faTrash} />

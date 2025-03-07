@@ -74,6 +74,7 @@ const EmpTrack = () => {
                 <th>Contact</th>
                 <th>Email</th>
                 <th>View PDF</th>
+                <th>Result</th>
                 <th>Delete</th>
               </tr>
             </thead>

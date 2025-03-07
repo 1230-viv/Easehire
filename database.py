@@ -76,6 +76,26 @@ async def get_jobs():
         logger.error(f"Error fetching jobs: {e}")
         return jsonify({"success": False, "message": "Failed to fetch jobs."}), 500
 
+# ✅ Get Single Job Route
+@routes.route("/jobs/<int:job_id>", methods=["GET"])
+async def get_job(job_id):
+    try:
+        async with AsyncSessionLocal() as session:
+            job = await session.get(Job, job_id)
+            if not job:
+                return jsonify({"success": False, "message": "Job not found"}), 404
+            return jsonify({
+                "id": job.id,
+                "jobTitle": job.title,
+                "jobType": job.type,
+                "location": job.location,
+                "skills": job.skills,
+                "jobDescription": job.description,
+            }), 200
+    except Exception as e:
+        logger.error(f"Error fetching job details: {e}")
+        return jsonify({"success": False, "message": "Failed to fetch job details."}), 500
+
 # ✅ Delete Job Route with Improved Error Handling
 @routes.route("/delete-job/<int:job_id>", methods=["DELETE"])
 async def delete_job(job_id):
@@ -90,3 +110,25 @@ async def delete_job(job_id):
     except Exception as e:
         logger.error(f"Error deleting job: {e}")
         return jsonify({"success": False, "message": "Failed to delete job."}), 500
+
+# ✅ Update Job Route
+@routes.route("/update-job/<int:job_id>", methods=["PUT"])
+async def update_job(job_id):
+    try:
+        data = await request.json
+        async with AsyncSessionLocal() as session:
+            job = await session.get(Job, job_id)
+            if not job:
+                return jsonify({"success": False, "message": "Job not found"}), 404
+            
+            job.title = data.get("jobTitle", job.title)
+            job.type = data.get("jobType", job.type)
+            job.location = data.get("location", job.location)
+            job.skills = data.get("skills", job.skills)
+            job.description = data.get("jobDescription", job.description)
+            
+            await session.commit()
+            return jsonify({"success": True, "message": "Job updated successfully!"}), 200
+    except Exception as e:
+        logger.error(f"Error updating job: {e}")
+        return jsonify({"success": False, "message": "Failed to update job."}), 500

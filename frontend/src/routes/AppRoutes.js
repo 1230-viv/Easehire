@@ -6,7 +6,8 @@ import AdminHome from "../pages/admin/AdminHome";
 import ManageJobsPage from "../pages/admin/ManageJobsPage";
 import ApplicantTracking from "../pages/admin/ApplicantTracking";
 import Help from "../pages/admin/Help";
-
+import JobEdit from "../pages/admin/JobEdit"; // ✅ Import JobEdit
+import Result from "../pages/admin/Result";
 import Empd from '../pages/AddEmployee';
 import Apptrack from '../pages/Applicant_tracking';
 import ExploreJob from '../pages/explorejob';
@@ -31,16 +32,19 @@ const AppRoutes = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/result" element={<ResultsPage />} />
         <Route path="/expjob" element={<ExploreJob />} />
-        <Route path="/empd" element={<Empd />} />
+        <Route path="/empd/:jobId" element={<Empd />} />
+        
         <Route path="/ats/:employeeId" element={<Ats />} />
         <Route path="/mcq/:jobId" element={<Mcq />} />
-        <Route path="/results/:jobId" element={<ResultsPage />} />
+        <Route path="/result/:jobId" element={<ResultsPage />} />
         <Route path="/coding/:employeeId/:jobId" element={<CodingRound />} />
 
         {/* Admin Routes (Require Authentication) */}
         <Route path="/AdminHome" element={isAuthenticated ? <AdminHome /> : <Navigate to="/login" />} />
         <Route path="/admin/app_track" element={isAuthenticated ? <Apptrack /> : <Navigate to="/login" />} />
         <Route path="/job-management" element={isAuthenticated ? <ManageJobsPage /> : <Navigate to="/login" />} />
+        <Route path="/results/:id" element={isAuthenticated ? <Result /> : <Navigate to="/login" />} /> {/* Fixed /resultss to /results */}
+        <Route path="/edit-job/:id" element={isAuthenticated ? <JobEdit /> : <Navigate to="/login" />} /> {/* ✅ Added JobEdit */}
         <Route path="/applicant-tracking" element={isAuthenticated ? <ApplicantTracking /> : <Navigate to="/login" />} />
         <Route path="/help" element={isAuthenticated ? <Help /> : <Navigate to="/login" />} />
 

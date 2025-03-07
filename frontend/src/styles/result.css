@@ -1,0 +1,109 @@
+/* Sections */
+.result-container{
+    
+}
+.section {
+    margin-left: 266px;
+    padding: 20px; /* Reduced padding for proper spacing */
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px; /* Added space between sections */
+}
+
+/* Candidate Basic Info */
+.basic-info h2 {
+    color: #007bff;
+    margin-bottom: 15px; /* Increased margin for spacing */
+    font-size: 24px; /* Slightly increased font size */
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px; /* Added margin for separation */
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Increased gap between icon and text */
+    font-size: 18px; /* Increased font size for better readability */
+    font-weight: bold;
+    color: #333;
+}
+
+.icon {
+    color: #007bff;
+    font-size: 20px; /* Slightly increased icon size */
+}
+
+/* Scores Section */
+.scores h2 {
+    color: #007bff;
+    margin-bottom: 15px; /* Increased margin */
+    font-size: 24px; /* Slightly increased font size */
+}
+
+.score-container {
+    justify-content: space-between;
+    gap: 20px; /* Added gap between score boxes */
+}
+
+.score-box {
+    flex: 1;
+    text-align: center;
+    background: white;
+    padding: 20px; /* Increased padding for better balance */
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.score-box:hover {
+    transform: translateY(-5px); /* Added hover effect */
+}
+
+.score-box h3 {
+    color: #333;
+    margin-bottom: 10px; /* Increased margin */
+    font-size: 20px; /* Slightly increased font size */
+}
+
+.score-box p {
+    font-size: 24px; /* Increased font size for emphasis */
+    font-weight: bold;
+    color: #007bff;
+}
+
+/* Coding Section */
+.coding h2 {
+    color: #007bff;
+    margin-bottom: 15px; /* Increased margin for spacing */
+    font-size: 24px;
+}
+
+.problem-statement {
+    background: #f4f4f4;
+    padding: 15px; /* Increased padding */
+    border-radius: 5px;
+    font-size: 18px; /* Increased font size */
+    margin-bottom: 20px; /* Added space below problem statement */
+}
+
+.code-block,
+.code-result {
+    background: #282c34;
+    color: #ffffff;
+    padding: 20px; /* Increased padding */
+    border-radius: 5px;
+    font-family: "Courier New", monospace;
+    font-size: 16px; /* Slightly decreased font size */
+    overflow-x: auto;
+    margin-bottom: 20px; /* Added space below code blocks */
+    white-space: pre-wrap; /* Ensures wrapping of long code lines */
+}
+
+.code-result {
+    background: #333; /* Darker background for code results */
+}

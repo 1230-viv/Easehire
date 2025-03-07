@@ -40,6 +40,12 @@ const ExploreJob = () => {
     }
   }, [search, jobs]);
 
+  const handleApplyNow = (jobId) => {
+    // Store the job_id in localStorage when Apply Now is clicked
+    localStorage.setItem("jobId", jobId);
+    navigate(`/empd/${jobId}`);
+  };
+
   return (
     <div className="explore-job">
       <Navbar />
@@ -73,7 +79,7 @@ const ExploreJob = () => {
               <p><FaTools /> <strong>Skills:</strong> {job.skills}</p>
               <div className="buttons">
                 <button className="read-more" onClick={() => navigate(`/job-details/${job.id}`)}>Read More</button>
-                <button className="apply-now" onClick={() => navigate(`/empd`)}>Apply Now</button>
+                <button className="apply-now" onClick={() => handleApplyNow(job.id)}>Apply Now</button>
               </div>
             </div>
           ))

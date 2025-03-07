@@ -58,18 +58,22 @@ async def add_employee():
 
     logging.info(f"📩 Received Data: {dict(form)}, Files: {files.keys()}")
 
+    # Check if all required fields are provided
     if not file or not form.get("name") or not form.get("phone_number") or not form.get("email") or not job_id:
         logging.error("❌ Missing required fields")
         return jsonify({"success": False, "message": "All fields (including job_id) are required"}), 400
 
+    # Validate job_id
     try:
-        job_id = int(job_id)
+        job_id = int(job_id) if job_id != 'null' else None
     except ValueError:
         logging.error("❌ job_id is not a valid integer")
         return jsonify({"success": False, "message": "Invalid job_id format. Must be an integer."}), 400
 
+    # Read the resume file data
     pdf_data = file.read()
 
+    # Validate if the job exists in the database
     async with AsyncSessionLocal() as session:
         job_exists = await session.execute(select(Job).filter(Job.id == job_id))
         job = job_exists.scalar_one_or_none()
@@ -78,6 +82,7 @@ async def add_employee():
             logging.error(f"❌ Invalid job_id: {job_id}")
             return jsonify({"success": False, "message": f"Invalid job_id: {job_id}. Job not found."}), 400
 
+        # Create and add the new employee to the database
         try:
             new_employee = Employee(
                 name=form["name"],
@@ -90,6 +95,7 @@ async def add_employee():
             await session.commit()
             logging.info(f"✅ Employee {form['name']} added successfully for Job ID {job_id}")
 
+            # Return success response with employee ID
             return jsonify({
                 "success": True,
                 "message": "Employee added successfully!",
@@ -104,7 +110,7 @@ async def add_employee():
 async def get_employees():
     async with AsyncSessionLocal() as session:
         result = await session.execute(
-            select(Employee.id, Employee.name, Employee.phone_number, Employee.email, Employee.pdf_resume, Employee.ats_score , 
+            select(Employee.id, Employee.name, Employee.phone_number, Employee.email, Employee.pdf_resume, 
                    Employee.job_id, Job.title, Employee.mcq_score)  # ✅ Include MCQ score
             .join(Job, Employee.job_id == Job.id)
         )
@@ -117,7 +123,6 @@ async def get_employees():
                 "phone_number": emp.phone_number,
                 "email": emp.email,
                 "pdf_resume": base64.b64encode(emp.pdf_resume).decode("utf-8"),
-                "ats_score":emp.ats_score,
                 "job_id": emp.job_id,
                 "job_title": emp.title,
                 "mcq_score": emp.mcq_score  # ✅ Include MCQ score in response
@@ -181,3 +186,39 @@ async def get_employee_resume(employee_id):
         except Exception as e:
             logging.error(f"Error fetching PDF: {str(e)}")
             return jsonify({"success": False, "message": "Internal Server Error"}), 500
+    
+    # ✅ Get Employee Details by ID
+@employee_routes.route("/employee/<int:employee_id>", methods=["GET"])
+async def get_employee(employee_id):
+    try:
+        async with AsyncSessionLocal() as session:
+            # Execute the query
+            result = await session.execute(
+                select(Employee)  # Only select Employee object
+                .filter(Employee.id == employee_id)
+            )
+            # Get the employee record
+            employee = result.scalar_one_or_none()
+
+            # Check if employee is None (not found)
+            if not employee:
+                return jsonify({"success": False, "message": "Employee not found"}), 404
+
+            # Employee data formatting
+            employee_data = {
+                "id": employee.id,
+                "name": employee.name,
+                "phone_number": employee.phone_number,
+                "email": employee.email,
+                "ats_score": employee.ats_score,
+                "job_id": employee.job_id,
+                "mcq_score": employee.mcq_score,
+                "problem_statement": employee.problem_statement,
+                "code": employee.code,
+                "code_result": employee.code_result
+            }
+
+            return jsonify(employee_data), 200
+    except Exception as e:
+        logging.error(f"Error: {e}")
+        return jsonify({"success": False, "message": "Internal server error"}), 500

@@ -37,15 +37,23 @@ export const deleteJob = async (jobId) => {
 
 export const updateJob = async (jobId, jobData) => {
   try {
-    const response = await fetch(`${API_URL}/update-job/${jobId}`, {  // ✅ Fixed backticks
+    console.log("Updating job with ID:", jobId);
+    console.log("Sending jobData:", jobData);
+
+    const response = await fetch(`${API_URL}/update-job/${jobId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(jobData),
     });
 
-    return await response.json();
+    const textResponse = await response.text(); // Read as text first
+    console.log("Raw Response:", textResponse); // Debugging
+
+    // Convert to JSON only if it's valid JSON
+    const jsonResponse = JSON.parse(textResponse);
+    return jsonResponse;
   } catch (error) {
     console.error("Error updating job:", error);
-    return { success: false };
+    return { success: false, error: error.message };
   }
 };
