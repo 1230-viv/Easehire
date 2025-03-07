@@ -36,7 +36,7 @@ const AppRoutes = () => {
         
         <Route path="/ats/:employeeId" element={<Ats />} />
         <Route path="/mcq/:jobId" element={<Mcq />} />
-        <Route path="/result/:jobId" element={<ResultsPage />} />
+        <Route path="/coding/result" element={<ResultsPage />} />
         <Route path="/coding/:employeeId/:jobId" element={<CodingRound />} />
 
         {/* Admin Routes (Require Authentication) */}

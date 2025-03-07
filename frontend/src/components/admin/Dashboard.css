@@ -1,5 +1,6 @@
 .dashboard-container {
-  margin-left: 120px;
+  margin-top: 50px;
+    margin-left: 177px;
     flex: 1;
     display: flex;
     flex-direction: column;

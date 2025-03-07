@@ -25,7 +25,7 @@ async def login():
         return jsonify({"token": token})
 
     return jsonify({"error": "Invalid credentials"}), 401
-
+# hnghbgfv
 # Protected Route
 @auth_bp.route("/protected", methods=["GET"])
 async def protected():

@@ -15,7 +15,7 @@ Run Server
 ```
 ## Install Dependencies Frontend
 
-To install the necessary dependencies, run:
+To install the necessary dependencies, run::
 
 ```bash
 npm install

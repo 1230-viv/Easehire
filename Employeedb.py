@@ -3,7 +3,7 @@ import base64
 from quart import Blueprint, request, jsonify
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker, declarative_base, relationship
-from sqlalchemy import Column, Integer, String, ForeignKey, select,Text
+from sqlalchemy import Column, Integer, String, ForeignKey, select,Text, desc
 from sqlalchemy.dialects.mysql import LONGBLOB
 
 # ✅ Configure logging
@@ -111,7 +111,7 @@ async def get_employees():
     async with AsyncSessionLocal() as session:
         result = await session.execute(
             select(Employee.id, Employee.name, Employee.phone_number, Employee.email, Employee.pdf_resume, 
-                   Employee.job_id, Job.title, Employee.mcq_score)  # ✅ Include MCQ score
+                   Employee.job_id, Job.title, Employee.mcq_score,Employee.ats_score)  # ✅ Include MCQ score
             .join(Job, Employee.job_id == Job.id)
         )
         employees = result.all()
@@ -125,7 +125,8 @@ async def get_employees():
                 "pdf_resume": base64.b64encode(emp.pdf_resume).decode("utf-8"),
                 "job_id": emp.job_id,
                 "job_title": emp.title,
-                "mcq_score": emp.mcq_score  # ✅ Include MCQ score in response
+                "mcq_score": emp.mcq_score ,
+                "ats_score":emp.ats_score 
             }
             for emp in employees
         ]
@@ -222,3 +223,5 @@ async def get_employee(employee_id):
     except Exception as e:
         logging.error(f"Error: {e}")
         return jsonify({"success": False, "message": "Internal server error"}), 500
+    
+ 

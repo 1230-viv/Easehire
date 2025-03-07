@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from Employeedb import AsyncSessionLocal, Employee
 from database import Job
-
+# gfvdd
 # ✅ Configure logging
 logging.basicConfig(level=logging.INFO)
 

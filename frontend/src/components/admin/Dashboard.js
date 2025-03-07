@@ -27,7 +27,7 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-      <Headertittl title="Dash Board" userName="Addya"></Headertittl>
+      <Headertittl title="Dash Board" userName="Admin"></Headertittl>
 
       <section className="content">
         <div className="top-section">

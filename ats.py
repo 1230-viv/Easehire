@@ -51,7 +51,7 @@ def get_ats_score(pdf_bytes):
     except Exception as e:
         logging.error(f"❌ Error generating ATS score: {e}")
         return None
-
+# hfg
 @ats_routes.route("/evaluate-resume/<int:employee_id>", methods=["GET"])
 async def evaluate_resume(employee_id):
     """Fetch ATS score and job ID from the database; if missing, generate and save it."""

@@ -21,6 +21,7 @@ const EmployeeList = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    
     loadEmployees();
     loadJobs();
   }, [selectedJob]);  // Re-run this effect when selectedJob changes
@@ -122,7 +123,7 @@ const EmployeeList = () => {
             {/* HR Section */}
             <div className="hr-info">
               <FontAwesomeIcon icon={faUserCircle} className="avatar-icon" />
-              <span className="hr-name">HR Manager</span>
+              <span className="hr-name">Admin</span>
             </div>
           </div>
         </div>
@@ -138,7 +139,6 @@ const EmployeeList = () => {
                 <thead>
                   <tr>
                     <th>Emp ID</th>
-                    <th>Job Title</th>
                     <th>Name</th>
                     <th>Contact</th>
                     <th>Email</th>
@@ -154,7 +154,6 @@ const EmployeeList = () => {
                       .map((emp) => (
                         <tr key={emp.id}>
                           <td>{emp.id}</td>
-                          <td>{emp.title}</td> {/* Display job title */}
                           <td>{emp.name}</td>
                           <td>{emp.phone_number}</td>
                           <td>{emp.email}</td>
