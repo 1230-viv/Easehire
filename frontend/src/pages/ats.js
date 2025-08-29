@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "../styles/ats.css";
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000";
+const API_BASE_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:8000";
 
 const Ats = () => {
   const navigate = useNavigate();
