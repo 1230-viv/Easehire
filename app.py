@@ -24,8 +24,8 @@ allowed_origins = [
     "http://10.180.173.101:3000",  
     "http://10.180.173.102:3000",  
     "http://10.180.173.103:3000",  
-    "http://localhost:8000",        # ✅ Added for backend testing
-    "http://127.0.0.1:8000",        # ✅ Added for backend testing
+    "http://localhost:5000",        # ✅ Added for backend testing
+    "http://127.0.0.1:5000",        # ✅ Added for backend testing
 ]
 
 app = cors(app, allow_origin=allowed_origins, allow_credentials=True)
@@ -68,9 +68,9 @@ async def startup():
 # ✅ Run ASGI Server with Hypercorn
 if __name__ == "__main__":
     config = hypercorn.config.Config()
-    config.bind = ["127.0.0.1:8000"]  # ✅ Changed to port 8000
+    config.bind = ["127.0.0.1:5000"]  # ✅ Changed to port 8000
     config.reuse_port = True  # ✅ Allow port reuse
     config.accesslog = "-"  # ✅ Log to stdout
     config.errorlog = "-"   # ✅ Log errors to stdout
-    print("🚀 Starting EaseHire server on http://127.0.0.1:8000")
+    print("🚀 Starting EaseHire server on http://127.0.0.1:5000")
     asyncio.run(hypercorn.asyncio.serve(app, config))  
