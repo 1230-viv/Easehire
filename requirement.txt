@@ -1,23 +1,30 @@
 # Core Framework
-quart
-hypercorn
-quart-cors
-sqlalchemy
-aiomysql
-PyJWT
-bcrypt
-docker
+quart>=0.19.0
+hypercorn>=0.14.4
+quart-cors>=0.7.0
+sqlalchemy>=2.0.23
+aiomysql>=0.2.0
+PyJWT>=2.8.0
+bcrypt>=4.1.2
+docker>=7.0.0
 
 # LLM Providers (install as needed)
-ollama                    # Local LLM support
-openai>=1.0.0            # OpenAI GPT models
-anthropic>=0.7.0         # Claude models  
-google-generativeai>=0.3.0  # Gemini models
+ollama>=0.1.7                    # Local LLM support
+openai>=1.12.0                   # OpenAI GPT models
+anthropic>=0.18.0                # Claude models  
+google-generativeai>=0.4.0      # Gemini models
 
 # PDF Processing
-PyPDF2
-pdfplumber
-pytesseract
+PyPDF2>=3.0.1
+pdfplumber>=0.10.0
+pytesseract>=0.3.10
 
-# Additional utilities
-python-dotenv            # Environment variable management
+# Security & Utilities
+python-dotenv>=1.0.0            # Environment variable management
+cryptography>=41.0.7            # Secure cryptographic libraries
+requests>=2.31.0                # HTTP library with security fixes
+urllib3>=2.0.7                  # URL handling with security patches
+
+# Additional Security
+certifi>=2023.11.17            # Updated SSL certificates
+setuptools>=68.0.0             # Latest setuptools for security
