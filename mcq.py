@@ -8,6 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from Employeedb import AsyncSessionLocal, Employee
 from database import Job
+from llm_service import llm_service  # ✅ Import new LLM service
 # gfvdd
 # ✅ Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -32,54 +33,24 @@ async def fetch_job_details(job_id):
         return job_title, job_skills
 
 async def generate_mcqs(job_title, job_skills):
-    """Generate 10 MCQs using Llama 3.2 based on job title & skills."""
-    prompt = f"""
-        Generate 10 multiple-choice questions (MCQs) based strictly on the job title '{job_title}' and required skills: {job_skills}.
-        Each MCQ should have:
-        - A precise, clear question.
-        - Four distinct answer choices (A, B, C, D).
-        - The correct answer (one option only).
-
-        Formatting Rules:
-        - The correct answer must be accurate.
-        - Avoid subjective or debatable questions.
-        - Return ONLY valid JSON.
-
-        Example Output Format:
-        [
-            {{
-                "question": "Which SQL command is used to create a new table?",
-                "options": ["A. CREATE TABLE", "B. INSERT INTO", "C. UPDATE", "D. DELETE FROM"],
-                "answer": "A"
-            }},
-            ...
-        ]
-    """
-
+    """Generate 10 MCQs using improved LLM service based on job title & skills."""
     try:
-        response = await asyncio.to_thread(
-            ollama.chat,
-            model=OLLAMA_MODEL,
-            messages=[{"role": "user", "content": prompt}]
-        )
-
-        raw_text = response["message"]["content"]
-        logging.info(f"📜 Raw Ollama Response: {raw_text}")
-
-        # ✅ Extract JSON using regex
-        json_match = re.search(r"\[.*\]", raw_text, re.DOTALL)
-
-        if json_match:
-            json_text = json_match.group(0)
-            mcqs = json.loads(json_text)
+        # Convert skills to list if it's a string
+        if isinstance(job_skills, str):
+            skills_list = [skill.strip() for skill in job_skills.split(',')]
+        else:
+            skills_list = job_skills
+            
+        # Use the new LLM service
+        mcqs = await llm_service.generate_mcqs(job_title, skills_list, count=10)
+        
+        if mcqs:
+            logging.info(f"✅ Generated {len(mcqs)} MCQs successfully")
             return mcqs
         else:
-            logging.error("❌ Could not extract JSON from Ollama response.")
+            logging.error("❌ LLM service failed to generate MCQs")
             return []
-        
-    except json.JSONDecodeError:
-        logging.error("❌ Failed to parse MCQs JSON response")
-        return []
+            
     except Exception as e:
         logging.error(f"❌ Error generating MCQs: {e}")
         return []

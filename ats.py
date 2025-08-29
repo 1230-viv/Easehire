@@ -5,6 +5,7 @@ from quart import Blueprint, jsonify
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from Employeedb import AsyncSessionLocal, Employee, Job  # ✅ Import Job model
+from llm_service import llm_service  # ✅ Import new LLM service
 
 logging.basicConfig(level=logging.INFO)
 
@@ -23,31 +24,23 @@ async def get_employee_data(employee_id):
 
         return employee  # ✅ Return the Employee object
 
-def get_ats_score(pdf_bytes):
-    """Send the PDF directly to Llama 3 for ATS scoring with a clear prompt."""
+async def get_ats_score(pdf_bytes, job_description=""):
+    """Send the PDF to LLM service for ATS scoring with improved accuracy."""
     try:
-        pdf_base64 = base64.b64encode(pdf_bytes).decode("utf-8")  # ✅ Convert PDF to base64
-
-        prompt = (
-            "You are an AI specializing in resume evaluation. Below is a PDF file containing a candidate's resume. "
-            "Analyze the resume and provide an ATS compatibility score (0-100) based on modern ATS standards. "
-            "IMPORTANT: Only return the score as a number. No explanations.\n\n"
-            f"[PDF Data (base64-encoded)]: {pdf_base64}\n\n"
-            "Respond with ONLY a number from 0 to 100."
-        )
-
-        response = ollama.chat(model="llama3.2", messages=[{"role": "user", "content": prompt}])
-        score = response['message']['content'].strip()
-
-        try:
-            score = float(score)  # ✅ Ensure numeric response
-            if 0 <= score <= 100:
-                return score
-            else:
-                raise ValueError("Score out of range")
-        except ValueError:
-            logging.error(f"❌ Invalid ATS score returned: {score}")
+        # Convert PDF bytes to text (you may want to add PDF text extraction)
+        pdf_base64 = base64.b64encode(pdf_bytes).decode("utf-8")
+        pdf_content = f"[PDF Base64]: {pdf_base64}"  # Simplified - consider using PyPDF2 for text extraction
+        
+        # Use the new LLM service
+        score = await llm_service.evaluate_ats_score(pdf_content, job_description)
+        
+        if score is not None:
+            logging.info(f"✅ Generated ATS score: {score}")
+            return score
+        else:
+            logging.error("❌ LLM service failed to generate ATS score")
             return None
+            
     except Exception as e:
         logging.error(f"❌ Error generating ATS score: {e}")
         return None
@@ -86,7 +79,7 @@ async def evaluate_resume(employee_id):
         if not employee.pdf_resume:
             return jsonify({"success": False, "message": "Resume not found"}), 404
 
-        ats_score = get_ats_score(employee.pdf_resume)
+        ats_score = await get_ats_score(employee.pdf_resume)
 
         if ats_score is None:
             return jsonify({"success": False, "message": "Failed to generate ATS score"}), 500

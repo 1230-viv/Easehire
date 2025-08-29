@@ -4,12 +4,16 @@ from quart import Quart, request
 from quart_cors import cors  
 import hypercorn.asyncio
 import hypercorn.config
+from dotenv import load_dotenv  # ✅ Load environment variables
 from loginAuthentication import auth_bp  
 from database import create_tables as create_job_tables, routes
 from Employeedb import create_tables as create_employee_tables, employee_routes
 from ats import ats_routes  
 from mcq import mcq_routes  
 from codinground import coding_routes  
+
+# ✅ Load environment variables from .env file
+load_dotenv()
 
 # ✅ Initialize Quart App
 app = Quart(__name__)

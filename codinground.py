@@ -10,7 +10,8 @@ from quart import Blueprint, jsonify, request
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, update
 from Employeedb import AsyncSessionLocal, Employee
-from database import Job  
+from database import Job
+from llm_service import llm_service  # ✅ Import new LLM service
 
 logging.basicConfig(level=logging.INFO)
 
