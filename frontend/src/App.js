@@ -1,12 +1,15 @@
 import React from 'react';
-import AppRoutes from './routes/AppRoutes'; // Import your routes
+import { BrowserRouter } from 'react-router-dom';
+import AppRoutes from './routes/AppRoutes';
 
 const App = () => {
   return (
-    <div>
-      {/* Other parts of your app layout (header, footer, etc.) */}
-      <AppRoutes /> {/* Render the routes */}
-    </div>
+    <BrowserRouter basename="/easehire">
+      <div>
+        {/* Other layout components */}
+        <AppRoutes />
+      </div>
+    </BrowserRouter>
   );
 };
 
