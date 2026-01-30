@@ -1,0 +1,21 @@
+name: Deploy via Depclick
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger deployment
+        run: |
+          curl -X POST https://http://13.201.46.41:8000/api/deploy/github \
+            -H "Content-Type: application/json" \
+            -H "X-DEPCLICK-SECRET: ${{ secrets.DEPCLICK_SECRET }}" \
+            -d '{
+              "repo": "${{ github.repository }}",
+              "branch": "main",
+              "commit": "${{ github.sha }}"
+            }'
