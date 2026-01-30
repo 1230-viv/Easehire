@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
 import AdminHome from "../pages/admin/AdminHome";
@@ -23,8 +23,7 @@ const AppRoutes = () => {
   const isAuthenticated = !!localStorage.getItem("token");
 
   return (
-    <Router>
-      <Routes>
+    <Routes>
         {/* Public Routes (No Authentication Required) */}
         <Route path="/" element={<Home />} />
         <Route path="/contact" element={<ContactUs />} />
@@ -51,7 +50,6 @@ const AppRoutes = () => {
         {/* Logout Route */}
         <Route path="/logout" element={<Logout />} />
       </Routes>
-    </Router>
   );
 };
 
