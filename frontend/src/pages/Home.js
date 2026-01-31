@@ -10,7 +10,7 @@ const Home = () => {
       <Navbar />
       <div className="home-container">
         <div className="text-container">
-          <h1>sarthak</h1>
+          <h1>Aditya</h1>
           <p>
             EaseHire streamlines hiring by analyzing resumes, generating ATS scores, 
             and automating candidate screening. Find the best talent faster and make 
