@@ -12,7 +12,7 @@ const Home = () => {
         <div className="text-container">
           <h1>Aditya</h1>
           <p>
-            winter is coming
+            winter is coming jon snow
           </p>
           <a href="/expjob" className="apply-button">
             <img src={jobIcon} alt="Apply Job" />
