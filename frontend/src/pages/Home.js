@@ -12,9 +12,7 @@ const Home = () => {
         <div className="text-container">
           <h1>Aditya</h1>
           <p>
-            EaseHire streamlines hiring by analyzing resumes, generating ATS scores, 
-            and automating candidate screening. Find the best talent faster and make 
-            data-driven hiring decisions effortlessly.
+            winter is coming
           </p>
           <a href="/expjob" className="apply-button">
             <img src={jobIcon} alt="Apply Job" />
